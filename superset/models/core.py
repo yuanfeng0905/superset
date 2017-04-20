@@ -42,6 +42,7 @@ install_aliases()
 from urllib import parse  # noqa
 
 config = app.config
+stats_logger = config.STATS_LOGGER
 metadata = Model.metadata  # pylint: disable=no-member
 
 
@@ -754,6 +755,7 @@ class Log(Model):
                 params = json.dumps(d)
             except:
                 pass
+            stats_logger.incr(f.__name__)
             value = f(*args, **kwargs)
 
             sesh = db.session()
