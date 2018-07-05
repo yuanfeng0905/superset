@@ -10,6 +10,8 @@ const exposedProperties = ['window', 'navigator', 'document'];
 global.jsdom = jsdom.jsdom;
 global.document = global.jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
+global.HTMLElement = window.HTMLElement;
+
 Object.keys(document.defaultView).forEach((property) => {
   if (typeof global[property] === 'undefined') {
     exposedProperties.push(property);
@@ -37,4 +39,6 @@ global.assert = chai.assert;
 global.sinon.useFakeXMLHttpRequest();
 
 global.window.XMLHttpRequest = global.XMLHttpRequest;
+global.window.location = { href: 'about:blank' };
+global.window.performance = { now: () => new Date().getTime() };
 global.$ = require('jquery')(global.window);
